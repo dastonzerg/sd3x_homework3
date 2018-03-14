@@ -7,10 +7,12 @@ import java.util.*;
  * Also includes functions for running dfs and bfs
  *
  */
-public class Graph {
+public class Graph 
+{
 	
 	private int n; //number of vertices
 	private LinkedList<Integer>[] adj; //adjacency list
+	private LinkedList<Maze.Move>[] adjDir;
 	
 	/**
 	 * Constructs a graph with n vertices (containing no edges)
@@ -18,10 +20,12 @@ public class Graph {
 	 * @param n - the number of vertices in the graph
 	 */
 	@SuppressWarnings("unchecked")
-	public Graph(int n) {
+	public Graph(int n) 
+	{
 		this.n = n;
 		adj = (LinkedList<Integer>[]) new LinkedList[n];
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++) 
+		{
 			adj[i] = new LinkedList<>();
 		}
 	}
@@ -29,7 +33,8 @@ public class Graph {
 	/**
 	 * add an edge between vertices v and w
 	 */
-	public void addEdge(int v, int w) {
+	public void addEdge(int v, int w) 
+	{
 		adj[v].add(w); //add w to v's adjacency list
 		adj[w].add(v);
 	}
@@ -37,14 +42,16 @@ public class Graph {
 	/**
 	 * outputs the neighbors of a vertex v
 	 */
-	public List<Integer> neighbors(int v) {
+	public List<Integer> neighbors(int v) 
+	{
 		return adj[v];
 	}
 	
 	/**
 	 * @return the number of vertices in the graph
 	 */
-	public int size() {
+	public int size() 
+	{
 		return n;
 	}
 	
@@ -58,7 +65,8 @@ public class Graph {
 	 * @param t the destination vertex
 	 * @return
 	 */
-	public int numShortestPaths(int s, int t) {
+	public int numShortestPaths(int s, int t) 
+	{
 		//TODO
 		return -1;
 	}

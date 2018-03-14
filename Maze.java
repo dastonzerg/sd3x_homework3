@@ -2,7 +2,8 @@
 import java.io.*;
 import java.util.*;
 
-public class Maze {
+public class Maze 
+{
 	
 	Graph g; //We will store the maze internally as a graph
 	int startVertex; //one of the vertices in the graph will be the start of the maze
@@ -21,19 +22,24 @@ public class Maze {
 	 * Our constructor will create the 2d array of integers from the file for you
 	 * 
 	 */
-	public Maze(String filename) throws IOException{
+	public Maze(String filename) throws IOException
+	{
 		
 		//create the 2d grid from the maze textfile
 		int[][] grid = createGrid(filename);
 		
 		//identify start and end vertices
 		int n = grid.length;
-		for (int row = 0; row < n; row++) {
-			for (int col = 0; col < n; col++) {
-				if (grid[row][col] == 2) {
+		for (int row = 0; row < n; row++) 
+		{
+			for (int col = 0; col < n; col++) 
+			{
+				if (grid[row][col] == 2) 
+				{
 					startVertex = row*n + col;
 				}
-				if (grid[row][col] == 3) {
+				if (grid[row][col] == 3) 
+				{
 					endVertex = row*n + col;
 				}
 			}
@@ -58,7 +64,8 @@ public class Maze {
 	 * @param endVertex - we will stop the traversal and output the list of moves when we hit this vertex
 	 * 
 	 */
-	public List<Move> solveMaze() {
+	public List<Move> solveMaze() 
+	{
 		//TODO
 		return null;
 	}
@@ -68,7 +75,8 @@ public class Maze {
 	 * Move is an enum type- when navigating a maze, you can either move
 	 * UP, DOWN, LEFT, or RIGHT
 	 */
-	public enum Move {
+	public enum Move 
+	{
 		UP, DOWN, LEFT, RIGHT
 	}
 	
@@ -77,16 +85,19 @@ public class Maze {
 	 * 
 	 * @param filename - the name of the file to be read from, containing the maze data
 	 */
-	public static int[][] createGrid(String filename) throws IOException {
+	public static int[][] createGrid(String filename) throws IOException 
+	{
 		//create the 2d array from the maze textfile
 		BufferedReader br = new BufferedReader(new FileReader(filename));
 		String line = br.readLine();
 		int n = line.length(); //the grid will always be an nxn square
 		int[][] grid = new int[n][n];
 		int row = 0;
-		while (line != null) {
+		while (line != null) 
+		{
 			int col = 0;
-			for (char c : line.toCharArray()) {
+			for (char c : line.toCharArray()) 
+			{
 				int val = Character.getNumericValue(c);
 				grid[row][col] = val;
 				col++;
