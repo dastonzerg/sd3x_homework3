@@ -24,19 +24,30 @@ public class Graph
 	{
 		this.n = n;
 		adj = (LinkedList<Integer>[]) new LinkedList[n];
-		for (int i = 0; i < n; i++) 
+		adjDir=(LinkedList<Maze.Move>[])new LinkedList[n];
+		for (int i = 0; i <= n-1; i++) 
 		{
-			adj[i] = new LinkedList<>();
+			adj[i] = new LinkedList<Integer>();
+			adjDir[i]=new LinkedList<Maze.Move>();
 		}
 	}
 	
 	/**
 	 * add an edge between vertices v and w
 	 */
-	public void addEdge(int v, int w) 
+	public void addEdge(int v, int w, Maze.Move dir)  // Here the dir could only be RIGHT or DOWN
 	{
 		adj[v].add(w); //add w to v's adjacency list
+		adjDir[v].add(dir);
 		adj[w].add(v);
+		if(dir==Maze.Move.RIGHT)
+		{
+		  adjDir[w].add(Maze.Move.LEFT);
+		}
+		else if(dir==Maze.Move.DOWN)
+		{
+		  adjDir[w].add(Maze.Move.UP);
+		}
 	}
 	
 	/**
@@ -45,6 +56,11 @@ public class Graph
 	public List<Integer> neighbors(int v) 
 	{
 		return adj[v];
+	}
+	
+	public List<Maze.Move> neighborsDir(int v)
+	{
+	  return adjDir[v];
 	}
 	
 	/**

@@ -27,28 +27,35 @@ public class Maze
 		
 		//create the 2d grid from the maze textfile
 		int[][] grid = createGrid(filename);
-		
 		//identify start and end vertices
 		int n = grid.length;
-		for (int row = 0; row < n; row++) 
+		g=new Graph(n*n);
+		
+		for (int row = 0; row <= n-1; row++) 
 		{
-			for (int col = 0; col < n; col++) 
+			for (int col = 0; col <= n-1; col++) 
 			{
-				if (grid[row][col] == 2) 
-				{
-					startVertex = row*n + col;
-				}
-				if (grid[row][col] == 3) 
-				{
-					endVertex = row*n + col;
-				}
+			  if(grid[row][col]!=0)
+			  {
+			    if(col!=n-1 && grid[row][col+1]!=0)
+			    {
+			      g.addEdge(row*n+col, row*n+col+1, Move.RIGHT);
+			    }
+			    if(row!=n-1 && grid[row+1][col]!=0)
+			    {
+			      g.addEdge(row*n+col, (row+1)*n+col, Move.DOWN);
+			    }
+			    if (grid[row][col] == 2) 
+	        {
+	          startVertex = row*n + col;
+	        }
+	        if (grid[row][col] == 3) 
+	        {
+	          endVertex = row*n + col;
+	        }
+			  }
 			}
 		}
-		
-		//TODO
-		//determine how to represent the graph and create it
-		//initialize startVertex and endVertex
-		g = null;
 	}
 	
 	/**
@@ -65,12 +72,41 @@ public class Maze
 	 * 
 	 */
 	public List<Move> solveMaze() 
-	{
-		//TODO
-		return null;
+	{ 
+	  int size=g.size();
+		LinkedList<Move> moveList=new LinkedList<Move>();
+		boolean[] visited=new boolean[size];
+		dfsVisit(startVertex, visited, moveList);
+		return moveList;
 	}
 	
-	
+	private boolean dfsVisit(int v, boolean[] visited, LinkedList<Move> moveList)
+	{
+	  visited[v]=true;
+	  if(v==endVertex)
+	  {
+	    return true;
+	  }
+	  
+	  Iterator<Integer> neighborIte=g.neighbors(v).iterator();
+	  Iterator<Move> neighborDirIte=g.neighborsDir(v).iterator();
+	  while(neighborIte.hasNext())
+	  {
+	    int neighbor=neighborIte.next();
+	    Move neighborDir=neighborDirIte.next();
+	    
+	    if(visited[neighbor]==false)
+	    { 
+	      if(dfsVisit(neighbor, visited, moveList))
+	      {
+	        moveList.addFirst(neighborDir);
+	        return true;
+	      }
+	    }
+	  }
+	  
+	  return false;
+	}
 	/**
 	 * Move is an enum type- when navigating a maze, you can either move
 	 * UP, DOWN, LEFT, or RIGHT
