@@ -83,7 +83,66 @@ public class Graph
 	 */
 	public int numShortestPaths(int s, int t) 
 	{
-		//TODO
-		return -1;
+    if(s==t)
+    {
+      return 1;
+    }
+    boolean[] visited=new boolean[n];
+    Queue<Integer> toVisit=new LinkedList<Integer>();
+    LinkedList<Integer> lastLevelVs=new LinkedList<Integer>();
+    LinkedList<Integer> currentLevelVs=new LinkedList<Integer>();
+    int currentLevelLeft=0;
+    int nextLevelCount=0;
+    
+    visited[s]=true;
+    for(int v:adj[s])
+    {
+      toVisit.add(v);
+    }
+    currentLevelVs.add(s);
+    nextLevelCount+=adj[s].size();
+    
+    while(!toVisit.isEmpty())
+    {
+      if(currentLevelLeft==0)
+      {
+        currentLevelLeft=nextLevelCount;
+        nextLevelCount=0;
+        lastLevelVs=new LinkedList<Integer>(currentLevelVs);
+        currentLevelVs.clear();
+      }
+      
+      currentLevelLeft--;
+      int current=toVisit.poll();
+      if(current==t)
+      {
+        int count=0;
+        for(int v:lastLevelVs)
+        {
+          LinkedList<Integer> adjList=adj[v];
+          for(int u:adjList)
+          {
+            if(u==t)
+            {
+              count++;
+            }
+          }
+        }
+        return count;
+      }
+      
+      visited[current]=true;
+      currentLevelVs.add(current);
+      
+      for(int v:adj[current])
+      {
+        if(visited[v]==false)
+        {
+          toVisit.add(v);
+          nextLevelCount++;
+        }
+      }
+    }
+    return 0;
 	}
 }
