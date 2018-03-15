@@ -39,11 +39,11 @@ public class Maze
 			  {
 			    if(col!=n-1 && grid[row][col+1]!=0)
 			    {
-			      g.addEdge(row*n+col, row*n+col+1, Move.RIGHT);
+			      g.addEdgeDir(row*n+col, row*n+col+1, Move.RIGHT);
 			    }
 			    if(row!=n-1 && grid[row+1][col]!=0)
 			    {
-			      g.addEdge(row*n+col, (row+1)*n+col, Move.DOWN);
+			      g.addEdgeDir(row*n+col, (row+1)*n+col, Move.DOWN);
 			    }
 			    if (grid[row][col] == 2) 
 	        {

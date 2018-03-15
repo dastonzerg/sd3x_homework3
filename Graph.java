@@ -35,7 +35,7 @@ public class Graph
 	/**
 	 * add an edge between vertices v and w
 	 */
-	public void addEdge(int v, int w, Maze.Move dir)  // Here the dir could only be RIGHT or DOWN
+	public void addEdgeDir(int v, int w, Maze.Move dir)  // Here the dir could only be RIGHT or DOWN
 	{
 		adj[v].add(w); //add w to v's adjacency list
 		adjDir[v].add(dir);
@@ -48,6 +48,12 @@ public class Graph
 		{
 		  adjDir[w].add(Maze.Move.UP);
 		}
+	}
+	
+	public void addEdge(int v, int w)
+	{
+	  adj[v].add(w);
+	  adj[w].add(v);
 	}
 	
 	/**
