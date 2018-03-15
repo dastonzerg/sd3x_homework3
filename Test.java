@@ -59,23 +59,29 @@ public class Test
 //    }
     
     // Test 2
-    Graph graph=new Graph(11);
+    Graph graph=new Graph(15);
     graph.addEdge(0, 1);
     graph.addEdge(0, 2);
     graph.addEdge(0, 3);
     graph.addEdge(0, 4);
-    graph.addEdge(4, 9);
-    graph.addEdge(1, 5);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 6);
-    graph.addEdge(3, 8);
-    graph.addEdge(6, 5);
-    graph.addEdge(9, 7);
-    graph.addEdge(5, 7);
-    graph.addEdge(8, 7);
-    graph.addEdge(8, 10);
-    graph.addEdge(7, 10);
+    graph.addEdge(0, 5);
+    graph.addEdge(1, 6);
+    graph.addEdge(1, 7);
+    graph.addEdge(2, 7);
+    graph.addEdge(2, 8);
+    graph.addEdge(2, 9);
+    graph.addEdge(3, 9);
+    graph.addEdge(4, 10);
+    graph.addEdge(5, 11);
+    graph.addEdge(6, 12);
+    graph.addEdge(7, 12);
+    graph.addEdge(8, 12);
+    graph.addEdge(9, 12);
+    graph.addEdge(10, 12);
+    graph.addEdge(11, 14);
+    graph.addEdge(12, 13);
+    graph.addEdge(14, 13);
     
-    out.println(graph.numShortestPaths(0, 7));
+    out.println(graph.numShortestPaths(0, 12));
   }
 }

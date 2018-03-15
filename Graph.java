@@ -1,5 +1,6 @@
 
 import java.util.*;
+import static java.lang.System.out;
 
 /**
  * A undirected graph class
@@ -94,6 +95,9 @@ public class Graph
 	    return 1;
 	  }
     int[] vLevels=new int[n];
+    vLevels[s]=1;
+    int[] vShortestPaths=new int[n];
+    vShortestPaths[s]=1;
     Queue<Integer> toVisit=new LinkedList<Integer>();
     int currentLevel=1;
     int currentLevelLeft=1;
@@ -109,20 +113,18 @@ public class Graph
         nextLevelCount=0;
         currentLevel++;
       }
-      vLevels[current]=currentLevel;
       currentLevelLeft--;
-      
+     
+      for(int v:adj[current])
+      {
+        if(vLevels[v]==currentLevel-1)
+        {
+          vShortestPaths[current]+=vShortestPaths[v];
+        }
+      }
       if(current==t)
       {
-        int count=0;
-        for(int v:adj[t])
-        {
-          if(vLevels[v]==currentLevel-1)
-          {
-            count++;
-          }
-        }
-        return count;
+        return vShortestPaths[current];
       }
       
       for(int v:adj[current])
@@ -130,6 +132,7 @@ public class Graph
         if(vLevels[v]==0)
         {
           toVisit.add(v);
+          vLevels[v]=currentLevel+1;
           nextLevelCount++;
         }
       }
