@@ -89,60 +89,45 @@ public class Graph
 	 */
 	public int numShortestPaths(int s, int t) 
 	{
-    if(s==t)
-    {
-      return 1;
-    }
-    boolean[] visited=new boolean[n];
+	  if(s==t)
+	  {
+	    return 1;
+	  }
+    int[] vLevels=new int[n];
     Queue<Integer> toVisit=new LinkedList<Integer>();
-    LinkedList<Integer> lastLevelVs=new LinkedList<Integer>();
-    LinkedList<Integer> currentLevelVs=new LinkedList<Integer>();
-    int currentLevelLeft=0;
+    int currentLevel=1;
+    int currentLevelLeft=1;
     int nextLevelCount=0;
-    
-    visited[s]=true;
-    for(int v:adj[s])
-    {
-      toVisit.add(v);
-    }
-    currentLevelVs.add(s);
-    nextLevelCount+=adj[s].size();
+    toVisit.add(s);
     
     while(!toVisit.isEmpty())
     {
+      int current=toVisit.poll();
       if(currentLevelLeft==0)
       {
         currentLevelLeft=nextLevelCount;
         nextLevelCount=0;
-        lastLevelVs=new LinkedList<Integer>(currentLevelVs);
-        currentLevelVs.clear();
+        currentLevel++;
       }
-      
+      vLevels[current]=currentLevel;
       currentLevelLeft--;
-      int current=toVisit.poll();
+      
       if(current==t)
       {
         int count=0;
-        for(int v:lastLevelVs)
+        for(int v:adj[t])
         {
-          LinkedList<Integer> adjList=adj[v];
-          for(int u:adjList)
+          if(vLevels[v]==currentLevel-1)
           {
-            if(u==t)
-            {
-              count++;
-            }
+            count++;
           }
         }
         return count;
       }
       
-      visited[current]=true;
-      currentLevelVs.add(current);
-      
       for(int v:adj[current])
       {
-        if(visited[v]==false)
+        if(vLevels[v]==0)
         {
           toVisit.add(v);
           nextLevelCount++;

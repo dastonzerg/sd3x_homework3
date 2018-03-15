@@ -76,6 +76,6 @@ public class Test
     graph.addEdge(8, 10);
     graph.addEdge(7, 10);
     
-    out.println(graph.numShortestPaths(7, 0));
+    out.println(graph.numShortestPaths(0, 7));
   }
 }
