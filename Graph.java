@@ -11,9 +11,8 @@ import static java.lang.System.out;
 public class Graph 
 {
 	
-	private int n; //number of vertices
-	private LinkedList<Integer>[] adj; //adjacency list
-	private LinkedList<Maze.Move>[] adjDir;
+	protected int n; //number of vertices
+	protected LinkedList<Integer>[] adj; //adjacency list
 	
 	/**
 	 * Constructs a graph with n vertices (containing no edges)
@@ -25,31 +24,15 @@ public class Graph
 	{
 		this.n = n;
 		adj = (LinkedList<Integer>[]) new LinkedList[n];
-		adjDir=(LinkedList<Maze.Move>[])new LinkedList[n];
 		for (int i = 0; i <= n-1; i++) 
 		{
 			adj[i] = new LinkedList<Integer>();
-			adjDir[i]=new LinkedList<Maze.Move>();
 		}
 	}
 	
 	/**
 	 * add an edge between vertices v and w
 	 */
-	public void addEdgeDir(int v, int w, Maze.Move dir)  // Here the dir could only be RIGHT or DOWN
-	{
-		adj[v].add(w); //add w to v's adjacency list
-		adjDir[v].add(dir);
-		adj[w].add(v);
-		if(dir==Maze.Move.RIGHT)
-		{
-		  adjDir[w].add(Maze.Move.LEFT);
-		}
-		else if(dir==Maze.Move.DOWN)
-		{
-		  adjDir[w].add(Maze.Move.UP);
-		}
-	}
 	
 	public void addEdge(int v, int w)
 	{
@@ -63,11 +46,6 @@ public class Graph
 	public List<Integer> neighbors(int v) 
 	{
 		return adj[v];
-	}
-	
-	public List<Maze.Move> neighborsDir(int v)
-	{
-	  return adjDir[v];
 	}
 	
 	/**
@@ -139,4 +117,40 @@ public class Graph
     }
     return 0;
 	}
+}
+
+class GraphWithDir extends Graph
+{
+  private LinkedList<Maze.Move>[] adjDir;
+  
+  @SuppressWarnings("unchecked")
+  public GraphWithDir(int n) 
+  {
+    super(n);
+    adjDir=(LinkedList<Maze.Move>[])new LinkedList[n];
+    for (int i = 0; i <= n-1; i++) 
+    {
+      adjDir[i]=new LinkedList<Maze.Move>();
+    }
+  }
+  
+  public void addEdgeDir(int v, int w, Maze.Move dir)  // Here the dir could only be RIGHT or DOWN
+  {
+    adj[v].add(w); //add w to v's adjacency list
+    adjDir[v].add(dir);
+    adj[w].add(v);
+    if(dir==Maze.Move.RIGHT)
+    {
+      adjDir[w].add(Maze.Move.LEFT);
+    }
+    else if(dir==Maze.Move.DOWN)
+    {
+      adjDir[w].add(Maze.Move.UP);
+    }
+  }
+  
+  public List<Maze.Move> neighborsDir(int v)
+  {
+    return adjDir[v];
+  }
 }

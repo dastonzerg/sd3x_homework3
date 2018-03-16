@@ -5,7 +5,7 @@ import java.util.*;
 public class Maze 
 {
 	
-	Graph g; //We will store the maze internally as a graph
+	GraphWithDir g; //We will store the maze internally as a graph
 	int startVertex; //one of the vertices in the graph will be the start of the maze
 	int endVertex; //another will be the end of the maze
 	
@@ -29,7 +29,7 @@ public class Maze
 		int[][] grid = createGrid(filename);
 		//identify start and end vertices
 		int n = grid.length;
-		g=new Graph(n*n);
+		g=new GraphWithDir(n*n);
 		
 		for (int row = 0; row <= n-1; row++) 
 		{

@@ -82,6 +82,6 @@ public class Test
     graph.addEdge(12, 13);
     graph.addEdge(14, 13);
     
-    out.println(graph.numShortestPaths(0, 12));
+    out.println(graph.numShortestPaths(12, 0));
   }
 }
