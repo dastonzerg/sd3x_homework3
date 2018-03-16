@@ -1,13 +1,15 @@
 
 import java.io.*;
 import java.util.*;
+import java.lang.Math.*;
 
 public class Maze 
 {
 	
-	GraphWithDir g; //We will store the maze internally as a graph
+	Graph g; //We will store the maze internally as a graph
 	int startVertex; //one of the vertices in the graph will be the start of the maze
 	int endVertex; //another will be the end of the maze
+	int nRow;
 	
 	/**
 	 * We will store an nxn maze in a textfile, and read it in.
@@ -29,7 +31,8 @@ public class Maze
 		int[][] grid = createGrid(filename);
 		//identify start and end vertices
 		int n = grid.length;
-		g=new GraphWithDir(n*n);
+	  nRow=n;
+		g=new Graph(n*n);
 		
 		for (int row = 0; row <= n-1; row++) 
 		{
@@ -39,11 +42,11 @@ public class Maze
 			  {
 			    if(col!=n-1 && grid[row][col+1]!=0)
 			    {
-			      g.addEdgeDir(row*n+col, row*n+col+1, Move.RIGHT);
+			      g.addEdge(row*n+col, row*n+col+1);
 			    }
 			    if(row!=n-1 && grid[row+1][col]!=0)
 			    {
-			      g.addEdgeDir(row*n+col, (row+1)*n+col, Move.DOWN);
+			      g.addEdge(row*n+col, (row+1)*n+col);
 			    }
 			    if (grid[row][col] == 2) 
 	        {
@@ -89,16 +92,36 @@ public class Maze
 	  }
 	  
 	  Iterator<Integer> neighborIte=g.neighbors(v).iterator();
-	  Iterator<Move> neighborDirIte=g.neighborsDir(v).iterator();
 	  while(neighborIte.hasNext())
 	  {
 	    int neighbor=neighborIte.next();
-	    Move neighborDir=neighborDirIte.next();
 	    
 	    if(visited[neighbor]==false)
 	    { 
 	      if(dfsVisit(neighbor, visited, moveList))
 	      {
+	        int rowNeighbor=neighbor/nRow;
+	        int colNeighbor=neighbor-rowNeighbor*nRow;
+	        int row=v/nRow;
+	        int col=v-row*nRow;
+	        Move neighborDir;
+	        
+	        if(rowNeighbor<row)
+	        {
+	          neighborDir=Move.UP;
+	        }
+	        else if(rowNeighbor>row)
+	        {
+	          neighborDir=Move.DOWN;
+	        }
+	        else if(colNeighbor<col)
+	        {
+	          neighborDir=Move.LEFT;
+	        }
+	        else
+	        {
+	          neighborDir=Move.RIGHT;
+	        }
 	        moveList.addFirst(neighborDir);
 	        return true;
 	      }

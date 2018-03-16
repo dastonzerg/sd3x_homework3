@@ -1,6 +1,9 @@
 
 import java.util.*;
-import static java.lang.System.out;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * A undirected graph class
@@ -11,8 +14,8 @@ import static java.lang.System.out;
 public class Graph 
 {
 	
-	protected int n; //number of vertices
-	protected LinkedList<Integer>[] adj; //adjacency list
+	private int n; //number of vertices
+	private LinkedList<Integer>[] adj; //adjacency list
 	
 	/**
 	 * Constructs a graph with n vertices (containing no edges)
@@ -117,40 +120,25 @@ public class Graph
     }
     return 0;
 	}
-}
-
-class GraphWithDir extends Graph
-{
-  private LinkedList<Maze.Move>[] adjDir;
-  
-  @SuppressWarnings("unchecked")
-  public GraphWithDir(int n) 
+	
+	public static Graph createGraph(String filename) throws IOException 
   {
-    super(n);
-    adjDir=(LinkedList<Maze.Move>[])new LinkedList[n];
-    for (int i = 0; i <= n-1; i++) 
+    BufferedReader br = new BufferedReader(new FileReader(filename));
+    String line = br.readLine();
+    int n = Integer.parseInt(line);
+    Graph g=new Graph(n);
+    String[] tokens;
+    
+    line=br.readLine();
+    while (line != null) 
     {
-      adjDir[i]=new LinkedList<Maze.Move>();
+      tokens=line.split(",");
+      int v=Integer.parseInt(tokens[0]);
+      int w=Integer.parseInt(tokens[1]);
+      g.addEdge(v, w);
+      line=br.readLine();
     }
-  }
-  
-  public void addEdgeDir(int v, int w, Maze.Move dir)  // Here the dir could only be RIGHT or DOWN
-  {
-    adj[v].add(w); //add w to v's adjacency list
-    adjDir[v].add(dir);
-    adj[w].add(v);
-    if(dir==Maze.Move.RIGHT)
-    {
-      adjDir[w].add(Maze.Move.LEFT);
-    }
-    else if(dir==Maze.Move.DOWN)
-    {
-      adjDir[w].add(Maze.Move.UP);
-    }
-  }
-  
-  public List<Maze.Move> neighborsDir(int v)
-  {
-    return adjDir[v];
+    br.close();
+    return g;
   }
 }
